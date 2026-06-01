@@ -4,9 +4,9 @@ public class BookCatalogue
 {
     //Using a singleton pattern to ensure there is only one copy of BookCatalogue
     private static BookCatalogue _instance = null;
-    private List<Books> _books;
+    private List<Book> _books;
     
-    private BookCatalogue 
+    private BookCatalogue() 
     {
         _books = new List<Book>();
     }
@@ -34,17 +34,17 @@ public class BookCatalogue
     }
     
     //Used later to display all books 
-    public IReadOnlyList<Books> GetAllBooks()
+    public IReadOnlyList<Book> GetAllBooks()
     {
         return _books.AsReadOnly();
     }
     
-    public List<Books> SearchBooks(string query)
+    public IReadOnlyList<Book> SearchBooks(string query)
     {
-        return _books.Where(b => b.Title.Contains(query) || 
+        return _books.Where(b => b.Title.Contains(query) ||
                                  b.Author.Contains(query) ||
                                  b.ISBN.Contains(query) ||
                                  b.Description.Contains(query)
-                                 ).ToList();
+                                 ).ToList().AsReadOnly() ;
     }
 }

@@ -15,7 +15,7 @@ public class CustomerAccount
         Name = name;
         Email = email;
         _hashedPassword = HashPassword(password);
-        OrderHistory = new List<Order>();
+        //OrderHistory = new List<Order>();
     }
 
     private string HashPassword(string password)
