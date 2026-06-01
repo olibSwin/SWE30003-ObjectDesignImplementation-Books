@@ -3,6 +3,7 @@ using System.Text;
 
 public class CustomerAccount 
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
@@ -10,8 +11,9 @@ public class CustomerAccount
     //private List<Order> OrderHistory { get; set; }
     private string _hashedPassword;
 
-    public CustomerAccount(string name, string email, string password)
+    public CustomerAccount(int id, string name, string email, string password)
     {
+        Id = id;
         Name = name;
         Email = email;
         _hashedPassword = HashPassword(password);
