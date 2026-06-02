@@ -1,7 +1,6 @@
 ﻿using FavouriteBooks.Services;
 using System.Windows;
 using System.Windows.Controls;
-using FavouriteBooks;
 
 namespace FavouriteBooks.Views
 {
@@ -11,11 +10,11 @@ namespace FavouriteBooks.Views
     public partial class BookCataloguePage : Page
     {
         private CartService _cartService;
-
-        public BookCataloguePage()
+        public BookCataloguePage(CartService cartService)
         {
+            _cartService = cartService;
+
             InitializeComponent();
-            _cartService = App.CartService;
 
             BooksGrid.ItemsSource = SampleData.GetBooks();
         }
@@ -40,7 +39,7 @@ namespace FavouriteBooks.Views
 
         private void ViewCart_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new CartPage());
+            NavigationService.Navigate(new CartPage(_cartService));
         }
     }
 }

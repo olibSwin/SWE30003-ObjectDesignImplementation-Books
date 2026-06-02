@@ -5,7 +5,7 @@ namespace FavouriteBooks.Services
     /// <summary>
     /// Manages orders
     /// </summary>
-    internal class OrderService
+    public class OrderService
     {
         public OrderService()
         {
@@ -41,6 +41,7 @@ namespace FavouriteBooks.Services
 
             if (!PaymentService.ProcessPayment(newPayment))
             {
+                CancelOrder(newOrder);
                 throw new Exception("Payment failed");
             }
 
@@ -54,6 +55,12 @@ namespace FavouriteBooks.Services
             return newOrder;
         }
 
-        public void DeleteOrder() { }
+        public static void CancelOrder(Order order)
+        {
+            foreach (OrderItem item in order.Items)
+            {
+                InventoryService.IncreaseStock(item.Book, item.Quantity);
+            }
+        }
     }
 }

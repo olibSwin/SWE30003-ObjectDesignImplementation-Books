@@ -3,7 +3,7 @@
     /// <summary>
     /// Stores receipt information
     /// </summary>
-    internal class Receipt(Guid orderId, decimal amountPaid)
+    public class Receipt(Guid orderId, decimal amountPaid)
     {
         public Guid ReceiptId { get; } = Guid.NewGuid();
         public Guid OrderId { get; } = orderId;

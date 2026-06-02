@@ -10,8 +10,6 @@ namespace FavouriteBooks
     /// </summary>
     public partial class App : Application
     {
-        internal static CartService CartService { get; } = new CartService();
-        internal static OrderService OrderService { get; } = new OrderService();
     }
 
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Manages the items currently in the ShoppingCart
     /// </summary>
-    internal class ShoppingCart
+    public class ShoppingCart
     {
         public List<CartItem> Items { get; set; }
 

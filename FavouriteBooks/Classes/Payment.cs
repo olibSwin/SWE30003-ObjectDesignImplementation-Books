@@ -3,7 +3,7 @@
     /// <summary>
     /// Stores payment data
     /// </summary>
-    internal class Payment(Guid orderId, decimal amount, string paymentMethod)
+    public class Payment(Guid orderId, decimal amount, string paymentMethod)
     {
         public Guid PaymentId { get; } = Guid.NewGuid();
         public Guid OrderId { get; } = orderId;

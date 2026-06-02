@@ -5,7 +5,7 @@ namespace FavouriteBooks.Services
     /// <summary>
     /// Manages the ShoppingCart with validation against any actions
     /// </summary>
-    internal class CartService
+    public class CartService
     {
         public readonly ShoppingCart Cart;
 

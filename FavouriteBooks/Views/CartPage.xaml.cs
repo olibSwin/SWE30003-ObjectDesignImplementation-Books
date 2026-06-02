@@ -1,17 +1,21 @@
 ﻿using FavouriteBooks.Classes;
+using FavouriteBooks.Services;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace FavouriteBooks.Views
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for CartPage.xaml
     /// </summary>
     public partial class CartPage : Page
     {
-        public CartPage()
+        private CartService _cartService;
+        public CartPage(CartService cartService)
         {
             InitializeComponent();
+
+            _cartService = cartService;
 
             RefreshCart();
         }
@@ -20,9 +24,9 @@ namespace FavouriteBooks.Views
         {
             CartItemGrid.ItemsSource = null;
 
-            CartItemGrid.ItemsSource = App.CartService.Cart.Items;
+            CartItemGrid.ItemsSource = _cartService.Cart.Items;
 
-            TotalText.Text = $"Total: ${App.CartService.GetSubTotal()}";
+            TotalText.Text = $"Total: ${_cartService.GetSubTotal()}";
         }
 
         private void Checkout_Click(object sender, RoutedEventArgs e)
@@ -41,7 +45,7 @@ namespace FavouriteBooks.Views
             {
                 try
                 {
-                    App.CartService.UpdateCartItemQuantity(item.Book.Id, 1);
+                    _cartService.UpdateCartItemQuantity(item.Book.Id, 1);
                 }
                 catch (InvalidOperationException)
                 {
@@ -56,7 +60,7 @@ namespace FavouriteBooks.Views
         {
             if (CartItemGrid.SelectedItem is CartItem item)
             {
-                App.CartService.UpdateCartItemQuantity(item.Book.Id, -1);
+                _cartService.UpdateCartItemQuantity(item.Book.Id, -1);
 
                 RefreshCart();
             }

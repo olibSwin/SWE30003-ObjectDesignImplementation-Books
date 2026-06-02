@@ -5,7 +5,7 @@ namespace FavouriteBooks.Services
     /// <summary>
     /// Processes payments
     /// </summary>
-    internal class PaymentService
+    public class PaymentService
     {
         public PaymentService() { }
 

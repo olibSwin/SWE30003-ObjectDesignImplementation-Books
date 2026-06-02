@@ -3,7 +3,7 @@
     /// <summary>
     /// Stores a book and quantity for the shopping cart
     /// </summary>
-    internal class CartItem(Book book, int quantity)
+    public class CartItem(Book book, int quantity)
     {
         public Book Book { get; } = book;
         public int Quantity { get; set; } = quantity;

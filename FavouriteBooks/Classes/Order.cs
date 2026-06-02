@@ -3,7 +3,7 @@
     /// <summary>
     /// Stores the data of a placed order
     /// </summary>
-    internal class Order(CustomerAccount customer)
+    public class Order(CustomerAccount customer)
     {
         public Guid OrderId { get; } = Guid.NewGuid();
         public CustomerAccount Customer { get; } = customer;
@@ -31,7 +31,7 @@
     /// <summary>
     /// Status of the order
     /// </summary>
-    enum OrderStatus
+    public enum OrderStatus
     {
         Pending,
         Paid,

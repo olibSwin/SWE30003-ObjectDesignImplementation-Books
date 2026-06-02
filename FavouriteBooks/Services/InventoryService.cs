@@ -3,7 +3,7 @@
     /// <summary>
     /// Manages the inventory
     /// </summary>
-    internal class InventoryService
+    public class InventoryService
     {
         public InventoryService() { }
 
