@@ -11,44 +11,46 @@
 
         public void AddBook(Book book, int quantity)
         {
-            /*
-             * add cartitem to items list with book and quantity
-             */
+            CartItem newItem = new CartItem(book, quantity);
+
+            Items.Add(newItem);
         }
 
         public void RemoveBook(int bookId)
         {
-            /*
-             * remove cartitem from items list
-             */
+            CartItem? item = Items.Find(x => x.Book.Id == bookId);
+
+            if (item != null)
+            {
+                Items.Remove(item);
+            }
         }
 
         public void UpdateQuantity(int bookId, int quantity)
         {
-            /*
-             * find cartitem in items list
-             * set cartitems quantity to quantity
-             */
+            CartItem? item = Items.Find(x => x.Book.Id == bookId);
+
+            if (item != null)
+            {
+                item.Quantity = quantity;
+            }
         }
 
         public void ClearCart()
         {
-            /*
-             * reset items list to empty list
-             */
+            Items.Clear();
         }
 
         public decimal GetTotal()
         {
-            /*
-             * total = 0
-             * 
-             * for each item in items list:
-             *      total += item's subtotal
-             * 
-             * return total
-             */
-            return 0;
+            decimal total = 0;
+
+            foreach (CartItem item in Items)
+            {
+                total += item.GetSubTotal();
+            }
+
+            return total;
         }
     }
 }
