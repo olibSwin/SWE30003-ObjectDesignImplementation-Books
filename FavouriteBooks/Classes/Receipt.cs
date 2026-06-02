@@ -10,7 +10,9 @@
         public DateTime DateIssued { get; } = DateTime.Now;
         public decimal AmountPaid { get; } = amountPaid;
 
-        public override string ToString() {
-            return $"ReceiptId: {ReceiptId}, OrderId: {OrderId}, Issue Date: {DateIssued}, Total Cost: $ ${AmountPaid}";
+        public override string ToString()
+        {
+            return $"ReceiptId: {ReceiptId}, OrderId: {OrderId}, Issue Date: {DateIssued}, Total Cost: ${AmountPaid}";
+        }
     }
 }

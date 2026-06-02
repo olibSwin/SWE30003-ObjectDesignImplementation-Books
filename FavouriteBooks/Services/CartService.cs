@@ -7,11 +7,11 @@ namespace FavouriteBooks.Services
     /// </summary>
     internal class CartService
     {
-        private readonly ShoppingCart _cart;
+        public readonly ShoppingCart Cart;
 
         public CartService()
         {
-            _cart = new ShoppingCart();
+            Cart = new ShoppingCart();
         }
 
 
@@ -23,22 +23,22 @@ namespace FavouriteBooks.Services
         /// <exception cref="InvalidOperationException"></exception>
         public void AddBookToCart(Book book, int quantity)
         {
-            CartItem? existingItem = _cart.Items.Find(x => x.Book.Id == book.Id);
+            CartItem? existingItem = Cart.Items.Find(x => x.Book.Id == book.Id);
 
             int newQuantity = existingItem != null ? existingItem.Quantity + quantity : quantity;
 
-            if (!InventoryService.HasStock(book, quantity))
+            if (!InventoryService.HasStock(book, newQuantity))
             {
                 throw new InvalidOperationException("Insuficient stock");
             }
 
             if (existingItem != null)
             {
-                _cart.UpdateQuantity(book.Id, quantity);
+                Cart.UpdateQuantity(book.Id, newQuantity);
                 return;
             }
 
-            _cart.AddItem(new CartItem(book, quantity));
+            Cart.AddItem(new CartItem(book, newQuantity));
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace FavouriteBooks.Services
         /// <exception cref="InvalidOperationException"></exception>
         public void RemoveBookFromCart(int bookId)
         {
-            CartItem? item = _cart.Items.Find(x => x.Book.Id == bookId) ?? throw new InvalidOperationException("Cannot remove non-existant item");
+            CartItem? item = Cart.Items.Find(x => x.Book.Id == bookId) ?? throw new InvalidOperationException("Cannot remove non-existant item");
 
-            _cart.RemoveItem(item);
+            Cart.RemoveItem(item);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace FavouriteBooks.Services
         /// <exception cref="InvalidOperationException"></exception>
         public void UpdateCartItemQuantity(int bookId, int quantity)
         {
-            CartItem? item = _cart.Items.Find(x => x.Book.Id == bookId) ?? throw new InvalidOperationException("Cannot update non-existant book");
+            CartItem? item = Cart.Items.Find(x => x.Book.Id == bookId) ?? throw new InvalidOperationException("Cannot update non-existant book");
 
             int newQuantity = item.Quantity + quantity;
 
@@ -72,7 +72,12 @@ namespace FavouriteBooks.Services
                 return;
             }
 
-            _cart.UpdateQuantity(bookId, newQuantity);
+            if (!InventoryService.HasStock(item.Book, newQuantity))
+            {
+                throw new InvalidOperationException("Insuficient stock");
+            }
+
+            Cart.UpdateQuantity(bookId, newQuantity);
         }
 
         /// <summary>
@@ -81,7 +86,7 @@ namespace FavouriteBooks.Services
         /// <returns>Cart subtotal</returns>
         public decimal GetSubTotal()
         {
-            return _cart.GetSubTotal();
+            return Cart.GetSubTotal();
         }
 
         /// <summary>
@@ -89,7 +94,7 @@ namespace FavouriteBooks.Services
         /// </summary>
         public void ClearCart()
         {
-            _cart.ClearCart();
+            Cart.ClearCart();
         }
     }
 }

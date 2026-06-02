@@ -15,7 +15,7 @@
         /// <returns>If quantity of stock is available</returns>
         public static bool HasStock(Book book, int quantity)
         {
-            return quantity >= book.Stock;
+            return book.Stock >= quantity;
         }
 
         /// <summary>
