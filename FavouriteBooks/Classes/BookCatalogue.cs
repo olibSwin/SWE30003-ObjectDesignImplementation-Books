@@ -11,7 +11,7 @@ public class BookCatalogue
         _books = new List<Book>();
     }
 
-    public static BookCatalogue instance
+    public static BookCatalogue Instance
     {
         get
         {

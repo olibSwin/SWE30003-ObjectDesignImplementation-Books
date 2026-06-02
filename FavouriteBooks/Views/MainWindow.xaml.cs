@@ -19,6 +19,22 @@ namespace FavouriteBooks.Views
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Navigate(new HomePage()); // load HomePage on startup
+        }
+
+        private void Home_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new HomePage());
+        }
+
+        private void Catalogue_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new BookCataloguePage());
+        }
+
+        private void Account_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new AccountPage());
         }
     }
 }

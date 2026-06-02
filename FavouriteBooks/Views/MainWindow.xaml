@@ -3,10 +3,72 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FavouriteBooks"
+        xmlns:local="clr-namespace:FavouriteBooks.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="1000">
-    <Grid>
+        Title="Favourite Books" Height="600" Width="1000">
 
+    <Window.Resources>
+        <Style x:Key="NavButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="15 5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3D5166"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Bar - no margin so it stretches edge to edge -->
+        <Grid Grid.Row="0" Background="#2C3E50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Title on the left -->
+            <TextBlock Grid.Column="0"
+                       Text="Favourite Books"
+                       Foreground="White"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="20 0"/>
+
+            <!-- Navigation buttons on the right -->
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Margin="0 0 20 0">
+                <Button Content="Home"
+                        Margin="5 0"
+                        Style="{StaticResource NavButton}"
+                        Click="Home_Click"/>
+                <Button Content="Catalogue"
+                        Margin="5 0"
+                        Style="{StaticResource NavButton}"
+                        Click="Catalogue_Click"/>
+                <Button Content="Account"
+                        Margin="5 0"
+                        Style="{StaticResource NavButton}"
+                        Click="Account_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Page Content -->
+        <Frame x:Name="MainFrame"
+               Grid.Row="1"
+               NavigationUIVisibility="Hidden"
+               JournalOwnership="OwnsJournal"/>
     </Grid>
 </Window>

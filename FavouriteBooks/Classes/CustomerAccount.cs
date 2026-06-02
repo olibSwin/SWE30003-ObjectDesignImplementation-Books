@@ -10,11 +10,13 @@ public class CustomerAccount
     //private List<Order> OrderHistory { get; set; }
     private string _hashedPassword;
 
-    public CustomerAccount(string name, string email, string password)
+    public CustomerAccount(string name, string email, string password, string phoneNumber, string deliveryAddress)
     {
         Name = name;
         Email = email;
         _hashedPassword = HashPassword(password);
+        PhoneNumber = phoneNumber;
+        DeliveryAddress = deliveryAddress;
         //OrderHistory = new List<Order>();
     }
 
@@ -33,6 +35,7 @@ public class CustomerAccount
         return _hashedPassword == HashPassword(password);
     }
     /*
+    Calling this after an ordrer is processed or somewhere later
     public void AddOrder(Order order)
     {
         OrderHistory.Add(order);
