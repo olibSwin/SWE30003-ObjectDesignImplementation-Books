@@ -7,7 +7,6 @@
     {
         public Book Book { get; } = book;
         public int Quantity { get; } = quantity;
-
         public decimal BookPurchasePrice { get; } = purchasePrice;
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace FavouriteBooks.Services
         /// <param name="customer">Customer who placed order</param>
         /// <param name="cart">Current shopping cart</param>
         /// <returns>Order details</returns>
-        public Order PlaceOrder(CustomerAccount customer, ShoppingCart cart)
+        public static Order PlaceOrder(CustomerAccount customer, ShoppingCart cart, PaymentInfo paymentInfo)
         {
             Order newOrder = new(customer);
 
@@ -37,7 +37,7 @@ namespace FavouriteBooks.Services
                 InventoryService.ReduceStock(item.Book, item.Quantity);
             }
 
-            Payment newPayment = new(newOrder.OrderId, newOrder.GetTotal(), "Credit Card");
+            Payment newPayment = new(newOrder.OrderId, newOrder.GetTotal(), paymentInfo);
 
             if (!PaymentService.ProcessPayment(newPayment))
             {

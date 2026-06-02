@@ -81,20 +81,20 @@ namespace FavouriteBooks.Services
         }
 
         /// <summary>
+        /// Removes all items from the cart
+        /// </summary>
+        public void ClearCart()
+        {
+            Cart.ClearCart();
+        }
+
+        /// <summary>
         /// Gets the cart subtotal
         /// </summary>
         /// <returns>Cart subtotal</returns>
         public decimal GetSubTotal()
         {
             return Cart.GetSubTotal();
-        }
-
-        /// <summary>
-        /// Removes all items from the cart
-        /// </summary>
-        public void ClearCart()
-        {
-            Cart.ClearCart();
         }
     }
 }
