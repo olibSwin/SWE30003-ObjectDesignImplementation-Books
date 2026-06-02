@@ -53,5 +53,7 @@ namespace FavouriteBooks.Services
 
             return newOrder;
         }
+
+        public void DeleteOrder() { }
     }
 }
