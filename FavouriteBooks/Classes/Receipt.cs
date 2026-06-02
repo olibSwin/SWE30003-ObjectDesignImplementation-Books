@@ -1,18 +1,16 @@
 ﻿namespace FavouriteBooks.Classes
 {
-    internal class Receipt
+    /// <summary>
+    /// Stores receipt information
+    /// </summary>
+    internal class Receipt(Guid orderId, decimal amountPaid)
     {
-        public int ReceiptId { get; }
-        public int OrderId { get; }
-        public DateTime DateIssued { get; }
-        public decimal AmountPaid { get; }
+        public Guid ReceiptId { get; } = Guid.NewGuid();
+        public Guid OrderId { get; } = orderId;
+        public DateTime DateIssued { get; } = DateTime.Now;
+        public decimal AmountPaid { get; } = amountPaid;
 
-        public Receipt(int receiptId, int orderId, decimal amountPaid)
-        {
-            ReceiptId = receiptId;
-            OrderId = orderId;
-            DateIssued = DateTime.Now;
-            AmountPaid = amountPaid;
-        }
+        public override string ToString() {
+            return $"ReceiptId: {ReceiptId}, OrderId: {OrderId}, Issue Date: {DateIssued}, Total Cost: $ ${AmountPaid}";
     }
 }

@@ -1,35 +1,36 @@
 ﻿namespace FavouriteBooks.Classes
 {
-    internal class Order
+    /// <summary>
+    /// Stores the data of a placed order
+    /// </summary>
+    internal class Order(CustomerAccount customer)
     {
-        public int OrderId { get; }
-        public CustomerAccount Customer {  get; }
-        public DateTime OrderDate { get; }
-        public List<OrderItem> Items { get; set; }
+        public Guid OrderId { get; } = Guid.NewGuid();
+        public CustomerAccount Customer { get; } = customer;
+        public DateTime OrderDate { get; } = DateTime.Now;
+        public List<OrderItem> Items { get; set; } = [];
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
-        public Order(int orderId, CustomerAccount customer)
-        {
-            OrderId = orderId;
-            Customer = customer;
-            Items = [];
-            OrderDate = DateTime.Now;
-        }
-
+        /// <summary>
+        /// Gets the total cost of the order
+        /// </summary>
+        /// <returns>Total cost of the order</returns>
         public decimal GetTotal()
         {
-            /*
-             * total = 0
-             * 
-             * for each orderitem in items list:
-             *      total += item's subtotal
-             * 
-             * return total
-             */
-            return 0;
+            decimal total = 0;
+
+            foreach (OrderItem item in Items)
+            {
+                total += item.GetSubTotal();
+            }
+
+            return total;
         }
     }
 
+    /// <summary>
+    /// Status of the order
+    /// </summary>
     enum OrderStatus
     {
         Pending,

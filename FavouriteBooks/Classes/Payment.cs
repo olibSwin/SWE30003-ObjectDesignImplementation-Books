@@ -1,20 +1,14 @@
 ﻿namespace FavouriteBooks.Classes
 {
-    internal class Payment
+    /// <summary>
+    /// Stores payment data
+    /// </summary>
+    internal class Payment(Guid orderId, decimal amount, string paymentMethod)
     {
-        public int PaymentId { get; }
-        public int OrderId { get; }
-        public decimal Amount { get; }
-        public DateTime PaymentDate { get; }
-        public string PaymentMethod { get; }
-
-        public Payment(int paymentId, int orderId, decimal amount, string paymentMethod)
-        {
-            PaymentId = paymentId;
-            OrderId = orderId;
-            Amount = amount;
-            PaymentDate = DateTime.Now;
-            PaymentMethod = paymentMethod;
-        }
+        public Guid PaymentId { get; } = Guid.NewGuid();
+        public Guid OrderId { get; } = orderId;
+        public decimal Amount { get; } = amount;
+        public DateTime PaymentDate { get; } = DateTime.Now;
+        public string PaymentMethod { get; } = paymentMethod;
     }
 }

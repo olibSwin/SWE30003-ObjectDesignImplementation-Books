@@ -1,16 +1,17 @@
 ﻿namespace FavouriteBooks.Classes
 {
-    internal class CartItem
+    /// <summary>
+    /// Stores a book and quantity for the shopping cart
+    /// </summary>
+    internal class CartItem(Book book, int quantity)
     {
-        public Book Book { get; }
-        public int Quantity { get; set; }
+        public Book Book { get; } = book;
+        public int Quantity { get; set; } = quantity;
 
-        public CartItem(Book book, int quantity)
-        {
-            Book = book;
-            Quantity = quantity;
-        }
-
+        /// <summary>
+        /// Gets the subtotal of the cart item
+        /// </summary>
+        /// <returns>Current book price times quantity</returns>
         public decimal GetSubTotal()
         {
             return Book.Price * Quantity;

@@ -1,5 +1,8 @@
 ﻿namespace FavouriteBooks.Classes
 {
+    /// <summary>
+    /// Manages the items currently in the ShoppingCart
+    /// </summary>
     internal class ShoppingCart
     {
         public List<CartItem> Items { get; set; }
@@ -9,39 +12,52 @@
             Items = [];
         }
 
-        public void AddBook(Book book, int quantity)
+        /// <summary>
+        /// Add a new CartItem to the cart
+        /// </summary>
+        /// <param name="newItem">CartItem to add</param>
+        public void AddItem(CartItem newItem)
         {
-            CartItem newItem = new CartItem(book, quantity);
-
             Items.Add(newItem);
         }
 
-        public void RemoveBook(int bookId)
+        /// <summary>
+        /// Removes a CartItem from the cart
+        /// </summary>
+        /// <param name="item">CartItem to remove</param>
+        public void RemoveItem(CartItem item)
+        {
+            Items.Remove(item);
+        }
+
+        /// <summary>
+        /// Updates the quantity of a CartItem with the matching bookId
+        /// </summary>
+        /// <param name="bookId">Id of the book to update</param>
+        /// <param name="newQuantity">New quantity</param>
+        public void UpdateQuantity(int bookId, int newQuantity)
         {
             CartItem? item = Items.Find(x => x.Book.Id == bookId);
 
             if (item != null)
             {
-                Items.Remove(item);
+                item.Quantity = newQuantity;
             }
         }
 
-        public void UpdateQuantity(int bookId, int quantity)
-        {
-            CartItem? item = Items.Find(x => x.Book.Id == bookId);
-
-            if (item != null)
-            {
-                item.Quantity = quantity;
-            }
-        }
-
+        /// <summary>
+        /// Removes all items from the cart
+        /// </summary>
         public void ClearCart()
         {
             Items.Clear();
         }
 
-        public decimal GetTotal()
+        /// <summary>
+        /// Get the current total cost of all the items in the cart
+        /// </summary>
+        /// <returns>Current total cost</returns>
+        public decimal GetSubTotal()
         {
             decimal total = 0;
 
