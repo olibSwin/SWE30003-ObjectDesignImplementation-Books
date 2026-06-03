@@ -96,5 +96,21 @@ namespace FavouriteBooks.Services
         {
             return Cart.GetSubTotal();
         }
+
+        /// <summary>
+        /// Gets the number of books in the cart. Adds quantities of all cart items
+        /// </summary>
+        /// <returns>Item count</returns>
+        public int GetItemCount()
+        {
+            int itemCount = 0;
+
+            foreach (CartItem item in Cart.Items)
+            {
+                itemCount += item.Quantity;
+            }
+
+            return itemCount;
+        }
     }
 }

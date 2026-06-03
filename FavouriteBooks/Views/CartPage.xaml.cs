@@ -10,12 +10,14 @@ namespace FavouriteBooks.Views
     /// </summary>
     public partial class CartPage : Page
     {
-        private CartService _cartService;
-        public CartPage(CartService cartService)
+        private readonly CartService _cartService;
+        private readonly CustomerAccount _customer;
+        public CartPage(CartService cartService, CustomerAccount customer)
         {
             InitializeComponent();
 
             _cartService = cartService;
+            _customer = customer;
 
             RefreshCart();
         }
@@ -26,12 +28,19 @@ namespace FavouriteBooks.Views
 
             CartItemGrid.ItemsSource = _cartService.Cart.Items;
 
-            TotalText.Text = $"Total: ${_cartService.GetSubTotal()}";
+            TotalText.Text = $"SubTotal: ${_cartService.GetSubTotal()}";
         }
 
         private void Checkout_Click(object sender, RoutedEventArgs e)
         {
-
+            if (_cartService.Cart.Items.Count >= 0)
+            {
+                NavigationService.Navigate(new CheckoutPage(_cartService, _customer));
+            }
+            else
+            {
+                MessageBox.Show("Cart is empty", "Unable to checkout", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -61,6 +70,16 @@ namespace FavouriteBooks.Views
             if (CartItemGrid.SelectedItem is CartItem item)
             {
                 _cartService.UpdateCartItemQuantity(item.Book.Id, -1);
+
+                RefreshCart();
+            }
+        }
+
+        private void RemoveAll_Click(object sender, RoutedEventArgs e)
+        {
+            if (CartItemGrid.SelectedItem is CartItem item)
+            {
+                _cartService.RemoveBookFromCart(item.Book.Id);
 
                 RefreshCart();
             }

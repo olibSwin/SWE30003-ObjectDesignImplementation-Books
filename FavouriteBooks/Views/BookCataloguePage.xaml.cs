@@ -9,12 +9,16 @@ namespace FavouriteBooks.Views
     /// </summary>
     public partial class BookCataloguePage : Page
     {
-        private CartService _cartService;
+        private readonly CartService _cartService;
+        private readonly CustomerAccount _customer;
         public BookCataloguePage(CartService cartService)
         {
-            _cartService = cartService;
-
             InitializeComponent();
+
+            _cartService = cartService;
+            _customer = new CustomerAccount(1, "TestUser", "test@email.com", "password");
+            _customer.PhoneNumber = "1234567890";
+            _customer.DeliveryAddress = "123 street, city, state, country";
 
             BooksGrid.ItemsSource = SampleData.GetBooks();
         }
@@ -39,7 +43,7 @@ namespace FavouriteBooks.Views
 
         private void ViewCart_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new CartPage(_cartService));
+            NavigationService.Navigate(new CartPage(_cartService, _customer));
         }
     }
 }
