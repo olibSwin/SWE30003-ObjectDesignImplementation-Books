@@ -1,7 +1,10 @@
-﻿namespace FavouriteBooks
+﻿using FavouriteBooks.Classes;
+
+namespace FavouriteBooks
 {
     internal static class SampleData
     {
+        /*
         public static List<Book> GetBooks()
         {
             return new List<Book>()
@@ -11,5 +14,6 @@
                 new(3, "TestBook3", "TestAuthor3", "3333333333333", 91.46m, 2, "Description of book 3"),
             };
         }
+        */
     }
 }

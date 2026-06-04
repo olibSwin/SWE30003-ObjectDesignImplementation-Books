@@ -4,25 +4,31 @@ namespace FavouriteBooks.Classes
 {
     public class CustomerAccount
     {
-        private static int _nextId = 1;
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string DeliveryAddress { get; set; }
-        //private List<Order> OrderHistory { get; set; }
-        private string _hashedPassword;
+        public string PasswordHash { get; set; }
+        public bool IsLocked { get; set; }
+        public int FailedLoginAttempts { get; set; }
+        public List<Order> OrderHistory { get; set; } = new();
 
         public CustomerAccount(string name, string email, string password, string phoneNumber, string deliveryAddress)
         {
-            Id = _nextId++;
             Name = name;
             Email = email;
-            _hashedPassword = HashPassword(password);
             PhoneNumber = phoneNumber;
             DeliveryAddress = deliveryAddress;
             //OrderHistory = new List<Order>();
+
+            PasswordHash = HashPassword(password);
+
+            FailedLoginAttempts = 0;
+            IsLocked = false;
         }
+
+        public CustomerAccount() { }
 
         private string HashPassword(string password)
         {
@@ -36,7 +42,7 @@ namespace FavouriteBooks.Classes
 
         public bool VerifyPassword(string password)
         {
-            return _hashedPassword == HashPassword(password);
+            return PasswordHash == HashPassword(password);
         }
         /*
         Calling this after an ordrer is processed or somewhere later
@@ -45,5 +51,17 @@ namespace FavouriteBooks.Classes
             OrderHistory.Add(order);
         }
         */
+        public void RegisterFailedLogin()
+        {
+            FailedLoginAttempts++;
+
+            if (FailedLoginAttempts >= 3)
+                IsLocked = true;
+        }
+
+        public void ResetLoginAttempts()
+        {
+            FailedLoginAttempts = 0;
+        }
     }
 }

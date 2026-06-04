@@ -1,4 +1,6 @@
-﻿namespace FavouriteBooks.Services
+﻿using FavouriteBooks.Classes;
+
+namespace FavouriteBooks.Services
 {
     /// <summary>
     /// Manages the inventory
