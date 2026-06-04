@@ -36,7 +36,7 @@ namespace FavouriteBooks.Views
 
             ReceiptId.Text = _receipt.ReceiptId.ToString();
             ReceiptDate.Text = _receipt.DateIssued.ToString();
-            ReceiptPaid.Text = $"${_receipt.AmountPaid.ToString()}";
+            ReceiptPaid.Text = $"${_receipt.AmountPaid}";
         }
 
         private void Home_Click(object sender, RoutedEventArgs e)
