@@ -45,12 +45,15 @@ namespace FavouriteBooks.Services
                 throw new Exception("Payment failed");
             }
 
+            newOrder.Status = OrderStatus.Paid;
+
             Receipt newReceipt = new(newOrder.OrderId, newPayment.Amount);
 
-            Console.WriteLine("Sending customer receipt...");
-            Console.WriteLine(newReceipt.ToString());
+            customer.ReceiptList.Add(newReceipt);
 
             cart.ClearCart();
+
+            newOrder.Status = OrderStatus.Completed;
 
             return newOrder;
         }

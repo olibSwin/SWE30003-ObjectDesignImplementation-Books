@@ -21,10 +21,26 @@
 
             foreach (OrderItem item in Items)
             {
-                total += item.GetSubTotal();
+                total += item.SubTotal + (item.Quantity * 2.5m);
             }
 
             return total;
+        }
+
+        /// <summary>
+        /// Gets the number of books in the order. Adds quantities of all order items
+        /// </summary>
+        /// <returns>Item count</returns>
+        public int GetItemCount()
+        {
+            int itemCount = 0;
+
+            foreach (OrderItem item in Items)
+            {
+                itemCount += item.Quantity;
+            }
+
+            return itemCount;
         }
     }
 
@@ -35,7 +51,6 @@
     {
         Pending,
         Paid,
-        Shipped,
         Completed
     }
 }

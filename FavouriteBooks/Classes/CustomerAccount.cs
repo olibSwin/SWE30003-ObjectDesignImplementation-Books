@@ -1,3 +1,4 @@
+using FavouriteBooks.Classes;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,8 +9,10 @@ public class CustomerAccount
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public string DeliveryAddress { get; set; }
+    public List<Receipt> ReceiptList { get; set; }
     //private List<Order> OrderHistory { get; set; }
     private string _hashedPassword;
+
 
     public CustomerAccount(int id, string name, string email, string password)
     {
@@ -18,6 +21,7 @@ public class CustomerAccount
         Email = email;
         _hashedPassword = HashPassword(password);
         //OrderHistory = new List<Order>();
+        ReceiptList = [];
     }
 
     private string HashPassword(string password)
