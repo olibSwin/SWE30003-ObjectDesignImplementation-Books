@@ -20,7 +20,6 @@ namespace FavouriteBooks.Classes
             Email = email;
             PhoneNumber = phoneNumber;
             DeliveryAddress = deliveryAddress;
-            //OrderHistory = new List<Order>();
 
             PasswordHash = HashPassword(password);
 
@@ -44,13 +43,13 @@ namespace FavouriteBooks.Classes
         {
             return PasswordHash == HashPassword(password);
         }
-        /*
-        Calling this after an ordrer is processed or somewhere later
+        
+        // Calling this after an orderaaa is processed or somewhere later
         public void AddOrder(Order order)
         {
             OrderHistory.Add(order);
         }
-        */
+        
         public void RegisterFailedLogin()
         {
             FailedLoginAttempts++;

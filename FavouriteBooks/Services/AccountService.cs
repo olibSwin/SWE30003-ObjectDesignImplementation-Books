@@ -15,6 +15,7 @@ namespace FavouriteBooks.Services
         public AccountService()
         {
             Load();
+            //SeedData(); // Uncomment this line to add a test account on first run
         }
         public CustomerAccount Login(string email, string password)
         {
@@ -75,5 +76,24 @@ namespace FavouriteBooks.Services
         }
 
         public List<CustomerAccount> GetAll() => _accounts;
+
+        private void SeedData()
+        {
+            if (_accounts.Count > 0)
+                return;
+
+            var user = new CustomerAccount("Test User", "test@test.com", "1234", "000", "Test Address");
+
+            user.OrderHistory.Add(new Order(user)
+            {
+                Items = new List<OrderItem>
+        {
+            new OrderItem(new Book("1984", "George Orwell", "123", 10m, 5), 2, 10m)
+        }
+            });
+
+            _accounts.Add(user);
+            Save();
+        }
     }
 }
