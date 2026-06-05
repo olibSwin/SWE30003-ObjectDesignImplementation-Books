@@ -1,8 +1,9 @@
-﻿using System.Configuration;
+﻿using FavouriteBooks.Services;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
-namespace WpfApp1
+namespace FavouriteBooks
 {
     /// <summary>
     /// Interaction logic for App.xaml

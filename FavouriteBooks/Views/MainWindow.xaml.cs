@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using FavouriteBooks.Classes;
+using FavouriteBooks.Services;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,6 +19,10 @@ namespace FavouriteBooks.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        public CustomerAccount CurrentUser { get; set; } = null;
+        public CartService CartService { get; } = new CartService();
+        public AccountService AccountService { get; } = new AccountService(); 
+
         public MainWindow()
         {
             InitializeComponent();

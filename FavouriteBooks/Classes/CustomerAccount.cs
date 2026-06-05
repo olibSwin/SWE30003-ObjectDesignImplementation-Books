@@ -1,44 +1,66 @@
 using System.Security.Cryptography;
 using System.Text;
-
-public class CustomerAccount 
+namespace FavouriteBooks.Classes
 {
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public string PhoneNumber { get; set; }
-    public string DeliveryAddress { get; set; }
-    //private List<Order> OrderHistory { get; set; }
-    private string _hashedPassword;
-
-    public CustomerAccount(string name, string email, string password, string phoneNumber, string deliveryAddress)
+    public class CustomerAccount
     {
-        Name = name;
-        Email = email;
-        _hashedPassword = HashPassword(password);
-        PhoneNumber = phoneNumber;
-        DeliveryAddress = deliveryAddress;
-        //OrderHistory = new List<Order>();
-    }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string DeliveryAddress { get; set; }
+        public string PasswordHash { get; set; }
+        public bool IsLocked { get; set; }
+        public int FailedLoginAttempts { get; set; }
+        public List<Order> OrderHistory { get; set; } = new();
 
-    private string HashPassword(string password)
-    {
-        using (SHA256 sha256 = SHA256.Create())
+        public CustomerAccount(string name, string email, string password, string phoneNumber, string deliveryAddress)
         {
-            byte[] bytes = sha256.ComputeHash(
-                Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(bytes);
+            Name = name;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            DeliveryAddress = deliveryAddress;
+
+            PasswordHash = HashPassword(password);
+
+            FailedLoginAttempts = 0;
+            IsLocked = false;
+        }
+
+        public CustomerAccount() { }
+
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(
+                    Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(bytes);
+            }
+        }
+
+        public bool VerifyPassword(string password)
+        {
+            return PasswordHash == HashPassword(password);
+        }
+        
+        // Calling this after an orderaaa is processed or somewhere later
+        public void AddOrder(Order order)
+        {
+            OrderHistory.Add(order);
+        }
+        
+        public void RegisterFailedLogin()
+        {
+            FailedLoginAttempts++;
+
+            if (FailedLoginAttempts >= 3)
+                IsLocked = true;
+        }
+
+        public void ResetLoginAttempts()
+        {
+            FailedLoginAttempts = 0;
         }
     }
-
-    public bool VerifyPassword(string password)
-    {
-        return _hashedPassword == HashPassword(password);
-    }
-    /*
-    Calling this after an ordrer is processed or somewhere later
-    public void AddOrder(Order order)
-    {
-        OrderHistory.Add(order);
-    }
-    */
 }
