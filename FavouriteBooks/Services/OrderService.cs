@@ -51,6 +51,7 @@ namespace FavouriteBooks.Services
             Receipt newReceipt = new(newOrder.OrderId, newPayment.Amount);
 
             customer.ReceiptList.Add(newReceipt);
+            customer.OrderHistory.Add(newOrder);
 
             cart.ClearCart();
 
