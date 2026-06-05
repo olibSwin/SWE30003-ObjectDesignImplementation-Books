@@ -19,13 +19,12 @@
             BookPurchasePrice = purchasePrice;
         }
 
-        /// <summary>
-        /// Gets the subtotal cost of the order item
-        /// </summary>
-        /// <returns>Book purchase price times quantity</returns>
-        public decimal GetSubTotal()
+        public decimal SubTotal
         {
-            return BookPurchasePrice * Quantity;
+            get
+            {
+                return BookPurchasePrice * Quantity;
+            }
         }
     }
 }

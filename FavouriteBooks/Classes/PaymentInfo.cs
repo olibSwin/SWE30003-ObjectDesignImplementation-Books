@@ -1,12 +1,7 @@
 ﻿namespace FavouriteBooks.Classes
 {
-    public class PaymentInfo
+    public class PaymentInfo(string paymentMethod)
     {
-        public string PaymentMethod { get; }
-
-        public PaymentInfo(string paymentMethod)
-        {
-            PaymentMethod = paymentMethod;
-        }
+        public string PaymentMethod { get; } = paymentMethod;
     }
 }

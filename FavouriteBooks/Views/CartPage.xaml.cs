@@ -33,7 +33,7 @@ namespace FavouriteBooks.Views
 
         private void Checkout_Click(object sender, RoutedEventArgs e)
         {
-            if (_cartService.Cart.Items.Count >= 0)
+            if (_cartService.Cart.Items.Count > 0)
             {
                 NavigationService.Navigate(new CheckoutPage(_cartService, _customer));
             }

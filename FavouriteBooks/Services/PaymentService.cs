@@ -19,6 +19,7 @@ namespace FavouriteBooks.Services
             // Pretend processing
 
             Console.WriteLine("Processing payment...");
+            Console.WriteLine(payment);
 
             bool result = true;
 

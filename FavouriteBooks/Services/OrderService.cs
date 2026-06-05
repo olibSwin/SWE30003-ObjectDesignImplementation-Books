@@ -26,6 +26,7 @@ namespace FavouriteBooks.Services
                 // Check stock for cart items
                 if (!InventoryService.HasStock(item.Book, item.Quantity))
                 {
+                    CancelOrder(newOrder);
                     throw new InvalidOperationException($"{item.Book.Title}'s stock ({item.Book.Stock}) is less than the requested amount ({item.Quantity})");
                 }
 
@@ -45,12 +46,16 @@ namespace FavouriteBooks.Services
                 throw new Exception("Payment failed");
             }
 
+            newOrder.Status = OrderStatus.Paid;
+
             Receipt newReceipt = new(newOrder.OrderId, newPayment.Amount);
 
-            Console.WriteLine("Sending customer receipt...");
-            Console.WriteLine(newReceipt.ToString());
+            customer.ReceiptList.Add(newReceipt);
+            customer.OrderHistory.Add(newOrder);
 
             cart.ClearCart();
+
+            newOrder.Status = OrderStatus.Completed;
 
             return newOrder;
         }

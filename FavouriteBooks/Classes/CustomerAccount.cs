@@ -1,3 +1,4 @@
+using FavouriteBooks.Classes;
 using System.Security.Cryptography;
 using System.Text;
 namespace FavouriteBooks.Classes
@@ -12,7 +13,9 @@ namespace FavouriteBooks.Classes
         public string PasswordHash { get; set; }
         public bool IsLocked { get; set; }
         public int FailedLoginAttempts { get; set; }
-        public List<Order> OrderHistory { get; set; } = new();
+        public List<Order> OrderHistory { get; set; } = [];
+        public List<Receipt> ReceiptList { get; set; } = [];
+
 
         public CustomerAccount(string name, string email, string password, string phoneNumber, string deliveryAddress)
         {

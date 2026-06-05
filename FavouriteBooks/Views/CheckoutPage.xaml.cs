@@ -32,6 +32,7 @@ namespace FavouriteBooks.Views
             OrderItemCount.Text = _cartService.GetItemCount().ToString();
             OrderSubtotal.Text = $"${_cartService.Cart.GetSubTotal()}";
             OrderShippingCost.Text = $"${_cartService.GetItemCount() * 2.5m}";
+            OrderTotalCost.Text = $"${_cartService.Cart.GetSubTotal() + (_cartService.GetItemCount() * 2.5m)}";
 
             paymentMethods = ["Credit Card", "Debit Card", "Apple Pay", "Google Pay", "PayPal"];
 
@@ -44,7 +45,36 @@ namespace FavouriteBooks.Views
 
         private void Pay_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (PaymentMethodDropdown.SelectedItem is string selectedPayementMethod)
+            {
+                PaymentInfo newPaymentInfo = new(selectedPayementMethod.ToString());
+
+                Order? newOrder = null;
+
+                try
+                {
+                    newOrder = OrderService.PlaceOrder(_customer, _cartService.Cart, newPaymentInfo);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    MessageBox.Show(ex.Message + ". The order has been cancelled", "Insufficient Stock", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    MessageBox.Show("The payment failed and the order has been cancelled", "Payment Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                if (newOrder is not null)
+                {
+                    NavigationService.Navigate(new OrderCompletePage(_customer, newOrder));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a payment method", "No Payment Method Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
