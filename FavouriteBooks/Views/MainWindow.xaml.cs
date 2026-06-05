@@ -1,5 +1,16 @@
-﻿using FavouriteBooks.Services;
+﻿using FavouriteBooks.Classes;
+using FavouriteBooks.Services;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace FavouriteBooks.Views
 {
@@ -8,15 +19,29 @@ namespace FavouriteBooks.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public CartService CartService { get; }
+        public CustomerAccount CurrentUser { get; set; } = null;
+        public CartService CartService { get; } = new CartService();
+        public AccountService AccountService { get; } = new AccountService(); 
 
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Navigate(new HomePage()); // load HomePage on startup
+        }
 
-            CartService = new();
+        private void Home_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new HomePage());
+        }
 
-            MainFrame.Navigate(new BookCataloguePage(CartService));
+        private void Catalogue_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new BookCataloguePage());
+        }
+
+        private void Account_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new AccountPage());
         }
     }
 }

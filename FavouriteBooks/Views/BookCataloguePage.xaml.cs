@@ -1,49 +1,79 @@
-﻿using FavouriteBooks.Services;
+﻿using FavouriteBooks.Classes;
+using FavouriteBooks.Services;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace FavouriteBooks.Views
 {
-    /// <summary>
-    /// Interaction logic for BookCataloguePage.xaml
-    /// </summary>
     public partial class BookCataloguePage : Page
     {
-        private readonly CartService _cartService;
-        private readonly CustomerAccount _customer;
-        public BookCataloguePage(CartService cartService)
+        private BookCatalogue _catalogue = BookCatalogue.Instance;
+        private CartService _cartService;
+        private CustomerAccount _currentUser;
+
+        public BookCataloguePage()
         {
             InitializeComponent();
+            MainWindow main = Application.Current.MainWindow as MainWindow;
+            _currentUser = main.CurrentUser;
+            _cartService = main.CartService;
+            BookList.ItemsSource = _catalogue.GetAllBooks().ToList();
+            UpdateCartDisplay();
+        }
 
-            _cartService = cartService;
-            _customer = new CustomerAccount(1, "TestUser", "test@email.com", "password");
-            _customer.PhoneNumber = "1234567890";
-            _customer.DeliveryAddress = "123 street, city, state, country";
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            string query = SearchBox.Text;
+            if (string.IsNullOrEmpty(query))
+                BookList.ItemsSource = _catalogue.GetAllBooks().ToList();
+            else
+                BookList.ItemsSource = _catalogue.SearchBooks(query).ToList();
+        }
 
-            BooksGrid.ItemsSource = SampleData.GetBooks();
+        private void Cart_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentUser == null)
+            {
+                MessageBox.Show("Please log in first.");
+                NavigationService.Navigate(new AccountPage());
+                return;
+            }
+
+            NavigationService.Navigate(
+                new CartPage(_cartService, _currentUser)
+            );
+        }
+
+        private void UpdateCartDisplay()
+        {
+            CartItemCount.Text = $"{_cartService.GetItemCount()} items";
+            CartTotal.Text = $"${_cartService.GetSubTotal():F2}";
         }
 
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
-            if (BooksGrid.SelectedItem is not Book selectedBook)
+            Button button = sender as Button;
+            Book selectedBook = button.Tag as Book;
+
+            if (_currentUser == null)
             {
+                MessageBox.Show("Please log in to add books to your cart.");
+                NavigationService.Navigate(new AccountPage());
                 return;
             }
 
             try
             {
                 _cartService.AddBookToCart(selectedBook, 1);
-                MessageBox.Show("Book added to cart");
+                MessageBox.Show($"{selectedBook.Title} added to cart!");
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
-                MessageBox.Show("Unable to add book. Max stock reached.", "Insufficient Stock", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(ex.Message);
             }
-        }
 
-        private void ViewCart_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new CartPage(_cartService, _customer));
+            UpdateCartDisplay();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace FavouriteBooks.Classes
+﻿using System.Text.Json.Serialization;
+
+namespace FavouriteBooks.Classes
 {
     /// <summary>
     /// Stores the data of a placed order
@@ -6,9 +8,10 @@
     public class Order(CustomerAccount customer)
     {
         public Guid OrderId { get; } = Guid.NewGuid();
+        [JsonIgnore]
         public CustomerAccount Customer { get; } = customer;
         public DateTime OrderDate { get; } = DateTime.Now;
-        public List<OrderItem> Items { get; set; } = [];
+        public List<OrderItem> Items { get; set; } = new();
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         /// <summary>

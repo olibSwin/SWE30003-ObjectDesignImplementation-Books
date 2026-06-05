@@ -5,31 +5,124 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FavouriteBooks.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="BookCataloguePage">
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="Book Catalogue">
 
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
 
-        <DataGrid
-            x:Name="BooksGrid"
-            AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" IsReadOnly="True">   
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
-                <DataGridTextColumn Header="Author" Binding="{Binding Author}" />
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <!-- Top bar with search on left and cart on right -->
+        <Grid Grid.Row="0" Margin="0 0 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="1" Content="Add to Cart" Click="AddToCart_Click" />
-        <Button Grid.Row="2" Content="View Cart" Click="ViewCart_Click" />
+            <!-- Search bar on the left -->
+            <StackPanel Grid.Column="0" 
+                        Orientation="Horizontal">
+                <TextBox x:Name="SearchBox" 
+                         Width="300" 
+                         Margin="0 0 10 0"
+                         Padding="5"/>
+                <Button Content="Search" 
+                        Click="Search_Click"
+                        Padding="10 5"/>
+            </StackPanel>
+
+            <!-- Cart button on the right -->
+            <!-- Cart summary and button on the right -->
+                <StackPanel Grid.Column="1" 
+                Orientation="Horizontal"
+                VerticalAlignment="Center">
+                    <StackPanel VerticalAlignment="Center"
+                    Margin="0 0 10 0">
+                        <TextBlock x:Name="CartItemCount"
+                       Text="0 items"
+                       HorizontalAlignment="Right"
+                       Foreground="Gray"
+                       FontSize="11"/>
+                        <TextBlock x:Name="CartTotal"
+                       Text="$0.00"
+                       HorizontalAlignment="Right"
+                       FontWeight="Bold"
+                       FontSize="11"/>
+                    </StackPanel>
+                    <Button Content="🛒 Cart"
+                Click="Cart_Click"
+                Padding="10 5"
+                VerticalAlignment="Center"/>
+                </StackPanel>
+        </Grid>
+
+        <!-- Book list in a border with scrolling -->
+        <Border Grid.Row="1" 
+        BorderBrush="#2C3E50" 
+        BorderThickness="1" 
+        CornerRadius="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ListBox x:Name="BookList"
+         BorderThickness="0"
+         Padding="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid MinHeight="70" Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Book details on left -->
+                                <StackPanel Grid.Column="0" Margin="10 10 0 10">
+                                    <TextBlock Text="{Binding Title}" 
+                           FontWeight="Bold" 
+                           FontSize="14"/>
+                                    <TextBlock Text="{Binding Author}" 
+                           Foreground="Gray"
+                           Margin="0 3 0 0"/>
+                                    <TextBlock Text="{Binding Description}" 
+                           Foreground="Gray"
+                           FontSize="11"
+                           TextWrapping="Wrap"
+                           Margin="0 3 0 0"/>
+                                </StackPanel>
+
+                                <!-- Price, stock and add to cart on right -->
+                                <StackPanel Grid.Column="1" 
+                        VerticalAlignment="Center"
+                        Margin="0 0 15 0">
+                                    <TextBlock Text="{Binding Price, StringFormat='${0:F2}'}" 
+                           FontWeight="Bold"
+                           FontSize="14"
+                           HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding Stock, StringFormat='{}{0} in stock'}" 
+                           Foreground="Gray"
+                           FontSize="11"
+                           HorizontalAlignment="Right"
+                           Margin="0 3 0 0"/>
+                                    <Button Content="Add to Cart"
+                        HorizontalAlignment="Right"
+                        Margin="0 8 0 0"
+                        Padding="8 4"
+                        Click="AddToCart_Click"
+                        Tag="{Binding}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>
