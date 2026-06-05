@@ -26,6 +26,7 @@ namespace FavouriteBooks.Services
                 // Check stock for cart items
                 if (!InventoryService.HasStock(item.Book, item.Quantity))
                 {
+                    CancelOrder(newOrder);
                     throw new InvalidOperationException($"{item.Book.Title}'s stock ({item.Book.Stock}) is less than the requested amount ({item.Quantity})");
                 }
 

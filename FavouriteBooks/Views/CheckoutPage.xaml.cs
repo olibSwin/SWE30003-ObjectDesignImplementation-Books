@@ -55,9 +55,14 @@ namespace FavouriteBooks.Views
                 {
                     newOrder = OrderService.PlaceOrder(_customer, _cartService.Cart, newPaymentInfo);
                 }
+                catch (InvalidOperationException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    MessageBox.Show(ex.Message + ". The order has been cancelled", "Insufficient Stock", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine(ex.Message);
                     MessageBox.Show("The payment failed and the order has been cancelled", "Payment Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
