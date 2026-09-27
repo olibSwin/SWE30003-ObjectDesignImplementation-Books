@@ -3,7 +3,7 @@
 ![GitHub License](https://img.shields.io/github/license/olibSwin/SWE30003-ObjectDesignImplementation-Books)
 
 
-Implementation of My Favourite books, bookstore website for the Swinburne University of Technology unit SWE30003 - Software Architectures and Design.
+WPF implementation of My Favourite books, bookstore website for the Swinburne University of Technology unit SWE30003 - Software Architectures and Design.
 
 ## Getting Started
 ### Requirements
